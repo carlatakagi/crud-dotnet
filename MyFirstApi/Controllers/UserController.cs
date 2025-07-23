@@ -31,6 +31,11 @@ public class UserController : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public IActionResult CreateUser([FromBody] RequestRegisterUserJson request)
     {
+        if (string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+        {
+            return BadRequest("Name, Email, and Password are required.");
+        }
+
         var response = new ResponseRegisterUserJson()
         {
             Id = 1,
@@ -38,5 +43,37 @@ public class UserController : ControllerBase
         };
 
         return Created(string.Empty, response);
+    }
+
+    [HttpPut]
+    [Route("update/{id}")]
+    [ProducesResponseType(typeof(Response), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    public IActionResult UpdateUser(int id, [FromBody] RequestRegisterUserJson request)
+    {
+        if (id <= 0)
+        {
+            return BadRequest("Invalid user ID.");
+        }
+        var response = new ResponseRegisterUserJson()
+        {
+            Id = id,
+            Name = request.Name
+        };
+        return Ok(response);
+    }
+
+    [HttpDelete]
+    [Route("delete/{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    public IActionResult DeleteUser(int id)
+    {
+        if (id <= 0)
+        {
+            return BadRequest("Invalid user ID.");
+        }
+
+        return NoContent();
     }
 }
