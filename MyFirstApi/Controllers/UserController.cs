@@ -22,4 +22,18 @@ public class UserController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpPost]
+    [Route("create")]
+    [ProducesResponseType(typeof(Response), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    public IActionResult CreateUser([FromBody] Response user)
+    {
+        if (user == null || string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Age))
+        {
+            return BadRequest("Invalid user data.");
+        }
+
+        return Created();
+    }
 }
