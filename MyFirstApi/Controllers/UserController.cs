@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyFirstApi.Communication.Responses;
+using MyFirstApi.Communication.Requests;
 
 namespace MyFirstApi.Controllers;
 
@@ -27,13 +29,14 @@ public class UserController : ControllerBase
     [Route("create")]
     [ProducesResponseType(typeof(Response), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    public IActionResult CreateUser([FromBody] Response user)
+    public IActionResult CreateUser([FromBody] RequestRegisterUserJson request)
     {
-        if (user == null || string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Age))
+        var response = new ResponseRegisterUserJson()
         {
-            return BadRequest("Invalid user data.");
-        }
+            Id = 1,
+            Name = request.Name
+        };
 
-        return Created();
+        return Created(string.Empty, response);
     }
 }
