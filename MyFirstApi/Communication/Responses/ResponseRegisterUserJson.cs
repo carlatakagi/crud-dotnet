@@ -1,4 +1,4 @@
-﻿namespace MyFirstApi.Communication
+﻿namespace MyFirstApi.Communication.Responses
 {
     public class ResponseRegisterUserJson
     {
